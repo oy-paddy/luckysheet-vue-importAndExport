@@ -18,6 +18,8 @@ This is a simple project that shows the use of [Luckysheet](https://github.com/m
 ### Installation
 ```
 npm install
+npm install exceljs
+npm install FileSaver
 ```
 ### Development
 ```

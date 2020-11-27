@@ -18,6 +18,8 @@
 ### 安装
 ```
 npm install
+npm install exceljs
+npm install FileSaver
 ```
 ### 开发
 ```
