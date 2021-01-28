@@ -19,10 +19,12 @@ export var exportExcel = function(luckysheet, value) {
     const worksheet = workbook.addWorksheet(table.name)
     const merge = (table.config && table.config.merge) || {}
     const borderInfo = (table.config && table.config.borderInfo) || {}
+    const images = table.images || {}
     // 3.设置单元格合并,设置单元格边框,设置单元格样式,设置值
     setStyleAndValue(table.data, worksheet)
     setMerge(merge, worksheet)
     setBorder(borderInfo, worksheet)
+    setImages(images, workbook, worksheet)
     return true
   })
 
@@ -137,6 +139,33 @@ var setStyleAndValue = function(cellArr, worksheet) {
   })
 }
 
+var setImages = function(luckyBorderInfo, workbook, worksheet) {
+    if (!luckyBorderInfo){
+        return;
+    }
+    for(var key in luckyBorderInfo){
+        var image = luckyBorderInfo[key];
+        var base64Image = image.src;
+        var imageId = workbook.addImage({
+            base64: base64Image,
+            extension: 'png',
+        });
+
+        var fromCol = image.fromCol;
+        var toCol = image.toCol;
+        var fromRow = image.fromRow;
+        var toRow = image.toRow;
+        var originHeight = image.originHeight;
+        var originWidth = image.originWidth;
+        worksheet.addImage(imageId, {
+            tl: { col: fromCol, row: fromRow },
+            br: { col: toCol, row: toRow },
+            ext: { width: originWidth, height: originHeight }
+        });
+
+    }
+
+}
 var fillConvert = function(bg) {
   if (!bg) {
     return {}
